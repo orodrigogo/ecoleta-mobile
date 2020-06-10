@@ -1,19 +1,52 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import { Feather as Icon } from '@expo/vector-icons';
-import { View, ImageBackground, Image, StyleSheet, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, ImageBackground, Image, StyleSheet, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import RNPickerSelect from 'react-native-picker-select';
+
+interface IBGEUFResponse {
+  sigla: string;
+}
+
+interface IBGECityResponse {
+  nome: string;
+}
+
+interface Select {
+  label: string;
+  value: string;
+}
+
 
 const Home = () => {
-  const [uf, setUf] = useState<string>('');
-  const [city, setCity] = useState<string>('');
+  const [ufs, setUfs] = useState<Select[]>([]);
+  const [cities, setCities] = useState<Select[]>([]);
+
+  const [selectedUf, setSelectedUf] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
 
   const navigation = useNavigation();
 
+
+  useEffect(() => {
+    // Pegando os Estados da API do IBGE.
+    axios.get<IBGEUFResponse[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+      .then(response => {
+        
+        const ufInitials = response.data.map(uf => ({label: uf.sigla, value: uf.sigla}) )
+        console.log(ufInitials)
+        setUfs(ufInitials)
+      })
+  }, []);
+
+
+
   function handleNavigationToPoints(){
     navigation.navigate('Points', {
-      uf,
-      city
+      uf: selectedUf,
+      city: selectedCity
     });
   }
 
@@ -33,27 +66,24 @@ const Home = () => {
       </View>
 
       <View style={styles.footer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Digite a UF"
-          value={uf}
-          maxLength={2}
-          autoCapitalize="characters" // deixa todos os caracteres da uf como caixa alta.
-          autoCorrect={false} // para o corretor do celular não tentar corrigir 
-          onChangeText={setUf}
-        >
+        <View style={styles.input}>
+          <RNPickerSelect 
+            placeholder={{ label: 'Selecione um Estado', value: 'Selecione um Estado' }}
+            style={{ viewContainer: { flex: 1,justifyContent: 'center', alignItems: 'center', backgroundColor: 'RED' } }}            
+            onValueChange={(value) => setSelectedUf(value)}
+            items={ufs}
+          />
+        </View>
 
-        </TextInput>
+        <View style={styles.input}>
+          <RNPickerSelect 
+            placeholder={{ label: 'Selecione uma Cidade', value: 'Selecione uma Cidade' }}
+            style={{ viewContainer: { flex: 1,justifyContent: 'center', alignItems: 'center', backgroundColor: 'RED' } }}            
+            onValueChange={(value) => setSelectedUf(value)}
+            items={ufs}
+          />
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Digite a Cidade"
-          value={city}
-          onChangeText={setCity}
-          autoCorrect={false}
-        >
-
-        </TextInput>
 
         <RectButton style={styles.button} onPress={handleNavigationToPoints}>
           <View style={styles.buttonIcon}>
