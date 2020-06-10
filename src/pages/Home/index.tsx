@@ -42,6 +42,20 @@ const Home = () => {
   }, []);
 
 
+  useEffect(() => {
+    // Pegando as cidades de acordo com o estado selecionado da API do IBGE.
+   if(selectedUf === '0'){
+     return;
+   }
+
+   axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
+     .then(response => {
+       const cityNames = response.data.map(city => ({label: city.nome, value: city.nome}) )
+       setCities(cityNames)
+     })
+ }, [selectedUf]);
+
+
 
   function handleNavigationToPoints(){
     navigation.navigate('Points', {
@@ -79,8 +93,8 @@ const Home = () => {
           <RNPickerSelect 
             placeholder={{ label: 'Selecione uma Cidade', value: 'Selecione uma Cidade' }}
             style={{ viewContainer: { flex: 1,justifyContent: 'center', alignItems: 'center', backgroundColor: 'RED' } }}            
-            onValueChange={(value) => setSelectedUf(value)}
-            items={ufs}
+            onValueChange={(value) => setSelectedCity(value)}
+            items={cities}
           />
         </View>
 
