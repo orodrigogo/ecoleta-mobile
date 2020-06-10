@@ -1,14 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Feather as Icon } from '@expo/vector-icons';
 import { View, ImageBackground, Image, StyleSheet, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+  const [uf, setUf] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+
   const navigation = useNavigation();
 
   function handleNavigationToPoints(){
-    navigation.navigate('Points');
+    navigation.navigate('Points', {
+      uf,
+      city
+    });
   }
 
   return (
@@ -30,6 +36,11 @@ const Home = () => {
         <TextInput
           style={styles.input}
           placeholder="Digite a UF"
+          value={uf}
+          maxLength={2}
+          autoCapitalize="characters" // deixa todos os caracteres da uf como caixa alta.
+          autoCorrect={false} // para o corretor do celular não tentar corrigir 
+          onChangeText={setUf}
         >
 
         </TextInput>
@@ -37,6 +48,9 @@ const Home = () => {
         <TextInput
           style={styles.input}
           placeholder="Digite a Cidade"
+          value={city}
+          onChangeText={setCity}
+          autoCorrect={false}
         >
 
         </TextInput>

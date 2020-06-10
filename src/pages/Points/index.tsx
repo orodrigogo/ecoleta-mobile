@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image, SafeAreaView, Alert } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Constants from 'expo-constants';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
@@ -24,6 +24,11 @@ interface Point {
   longitude: number;
 }
 
+interface Params {
+  uf: string;
+  city: string;
+}
+
 
 const Points = () => {
   const [items, setItems] = useState<Item[]>([]);
@@ -33,6 +38,10 @@ const Points = () => {
   const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0]);
 
   const navigation = useNavigation();
+  const route = useRoute();
+
+  // Definindo o formato da variavel route.
+  const routeParams = route.params as Params;
 
   useEffect(() => {
     async function loadPosition(){
@@ -65,14 +74,14 @@ const Points = () => {
   useEffect(() => {
     api.get('points', {
       params: {
-        city: 'Bebedouro',
-        uf: 'SP',
-        items: [1, 2, 6]
+        city: routeParams.city,
+        uf: routeParams.uf,
+        items: selectedItems
       }
     }).then(response => {
       setPoints(response.data);     
     });
-  },[]);
+  },[selectedItems]);
 
   
   function handleNavigateBack(){
