@@ -36,7 +36,6 @@ const Home = () => {
       .then(response => {
         
         const ufInitials = response.data.map(uf => ({label: uf.sigla, value: uf.sigla}) )
-        console.log(ufInitials)
         setUfs(ufInitials)
       })
   }, []);
