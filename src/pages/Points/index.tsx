@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image, SafeAreaView } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Constants from 'expo-constants';
@@ -19,7 +19,7 @@ const Points = () => {
 
 
   return (
-    <>
+    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       <TouchableOpacity onPress={handleNavigateBack}>
         <Icon name="arrow-left" size={20} color="#34CD79" />
@@ -69,7 +69,7 @@ const Points = () => {
         </TouchableOpacity>
       </ScrollView>
     </View>
-  </>
+  </SafeAreaView>
   )
 };
 
