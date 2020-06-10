@@ -85,31 +85,32 @@ const Points = () => {
       <Text style={styles.description}>Encontre no mapa um ponto de coleta.</Text>
 
       <View style={styles.mapContainer}>
-        <MapView 
-          style={styles.map} 
-          loadingEnabled={initialPosition[0] === 0}
-          initialRegion={{
-            latitude: -20.9436828,
-            longitude: -48.4588362,
-            latitudeDelta: 0.014,
-            longitudeDelta: 0.014,
-          }}
-        >
-          <Marker 
-            style={styles.mapMarker}
-            onPress={handleNavigateToDetail}
-            coordinate={{ 
-              latitude: initialPosition[0],
-              longitude: initialPosition[1],
-            }} 
+        {initialPosition[0] !== 0 && (
+          <MapView 
+            style={styles.map} 
+            initialRegion={{
+              latitude: -20.9436828,
+              longitude: -48.4588362,
+              latitudeDelta: 0.014,
+              longitudeDelta: 0.014,
+            }}
           >
-            <View style={styles.mapMarkerContainer}>
-              <Image source={{ uri: 'https://media.timeout.com/images/105501076/630/472/image.jpg '}} style={styles.mapMarkerImage} />
-              <Text style={styles.mapMarkerTitle}>Mercado</Text>
-            </View>
+            <Marker 
+              style={styles.mapMarker}
+              onPress={handleNavigateToDetail}
+              coordinate={{ 
+                latitude: initialPosition[0],
+                longitude: initialPosition[1],
+              }} 
+            >
+              <View style={styles.mapMarkerContainer}>
+                <Image source={{ uri: 'https://media.timeout.com/images/105501076/630/472/image.jpg '}} style={styles.mapMarkerImage} />
+                <Text style={styles.mapMarkerTitle}>Mercado</Text>
+              </View>
 
-          </Marker>
-        </MapView>
+            </Marker>
+          </MapView>
+        )}
       </View>
 
     </View>
