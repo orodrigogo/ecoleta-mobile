@@ -89,12 +89,13 @@ const Home = () => {
           />
         </View>
 
-        <View style={styles.input}>
+        <View style={[styles.input, !selectedUf ? { opacity: .5} : {opacity: 1} ]}>
           <RNPickerSelect 
             placeholder={{ label: 'Selecione uma Cidade', value: 'Selecione uma Cidade' }}
             style={{ viewContainer: { flex: 1,justifyContent: 'center', alignItems: 'center', backgroundColor: 'RED' } }}            
             onValueChange={(value) => setSelectedCity(value)}
             items={cities}
+            disabled={!selectedUf}
           />
         </View>
 
