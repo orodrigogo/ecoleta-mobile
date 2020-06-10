@@ -1,6 +1,6 @@
 import React from 'react';
 import { Feather as Icon } from '@expo/vector-icons';
-import { View, ImageBackground, Image, StyleSheet, Text } from 'react-native';
+import { View, ImageBackground, Image, StyleSheet, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,18 +12,35 @@ const Home = () => {
   }
 
   return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
     <ImageBackground 
       source={require('../../assets/home-background.png')} 
       style={styles.container}
       imageStyle={{ width: 274, height: 368 }}// O imageStyle permite estilizar a imagem de background separada.
     >      
       <View style={styles.main}>
-        <Image source={require('../../assets/logo.png')} />
-        <Text style={styles.title}>Seu marketplace de coleta de resíduos.</Text>
-        <Text style={styles.description}>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</Text>
+         <Image source={require('../../assets/logo.png')} />
+          <View>
+            <Text style={styles.title}>Seu marketplace de coleta de resíduos.</Text>
+            <Text style={styles.description}>Ajudamos pessoas a encontrarem pontos de coleta de forma eficiente.</Text>
+          </View>
       </View>
 
       <View style={styles.footer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite a UF"
+        >
+
+        </TextInput>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Digite a Cidade"
+        >
+
+        </TextInput>
+
         <RectButton style={styles.button} onPress={handleNavigationToPoints}>
           <View style={styles.buttonIcon}>
             <Text>
@@ -37,6 +54,7 @@ const Home = () => {
       </View>
 
     </ImageBackground>
+    </KeyboardAvoidingView>
   );
 }
 

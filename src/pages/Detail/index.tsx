@@ -86,7 +86,7 @@ const Detail = () => {
         </RectButton>
 
         <RectButton style={styles.button} onPress={handleComposeMail}>
-          <FontAwesome name="mail" size={20} color="#FFF" />
+          <FontAwesome name="envelope-o" size={20} color="#FFF" />
           <Text style={styles.buttonText}>E-mail</Text>
         </RectButton>
       </View>
