@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Image, SafeAreaView, Alert } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Constants from 'expo-constants';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
+import * as Location from 'expo-location';
 
 import api from '../../services/api';
 
@@ -19,7 +20,32 @@ const Points = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0]);
+
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function loadPosition(){
+      // pedind permissão para o usuário para exibir a localização dele.
+      const { status } = await Location.requestPermissionsAsync();
+
+      if(status !== 'granted'){
+        Alert.alert('Ooooops...', 'Precisamos de sua permissão ara obter a localização');
+        return;
+      }
+
+      // traz a posição do usuário.
+      const location = await Location.getCurrentPositionAsync();
+      const { latitude, longitude } = location.coords;
+
+      setInitialPosition([
+        latitude,
+        longitude
+      ])
+    }
+
+    loadPosition();
+  },[])
 
   useEffect(() => {
     api.get('items').then(response => setItems(response.data));
@@ -61,6 +87,7 @@ const Points = () => {
       <View style={styles.mapContainer}>
         <MapView 
           style={styles.map} 
+          loadingEnabled={initialPosition[0] === 0}
           initialRegion={{
             latitude: -20.9436828,
             longitude: -48.4588362,
@@ -72,8 +99,8 @@ const Points = () => {
             style={styles.mapMarker}
             onPress={handleNavigateToDetail}
             coordinate={{ 
-              latitude: -20.9436828,
-              longitude: -48.4588362,
+              latitude: initialPosition[0],
+              longitude: initialPosition[1],
             }} 
           >
             <View style={styles.mapMarkerContainer}>
