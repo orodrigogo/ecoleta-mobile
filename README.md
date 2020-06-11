@@ -23,7 +23,7 @@ O **Aplicativo Mobile do Ecoleta** mostra em tempo real os pontos de coleta e de
 
 
 
-A versão **Mobile Web do Ecoleta** está disponível para Android e iOS. :phone:
+A versão **Mobile Web do Ecoleta** está disponível para Android e iOS. :iphone:
 
 
 
