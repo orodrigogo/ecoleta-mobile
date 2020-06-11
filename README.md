@@ -4,8 +4,10 @@
 </div>
 
 
+<div align="center" >
+  <img src="viewappecoleta.gif">
+</div>
 
-![](viewappecoleta.gif)
 
 
 _________________
