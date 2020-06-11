@@ -4,9 +4,9 @@
 </div>
 
 
-<p align="center">
+<div align="center">
   <img src="viewappecoleta.gif">
-</p>
+</div>
 
 
 
